@@ -21,7 +21,10 @@ public class FAQService {
 
 	public List<FAQ> getForPrintFAQ(int itemsInAPage, int page, String searchKeyword) {
 
-		return faqRepository.getForPrintFAQ(itemsInAPage,page,searchKeyword);
+		int limitFrom = (page - 1) * itemsInAPage;
+		int limitTake = itemsInAPage;
+
+		return faqRepository.getForPrintFAQ(limitFrom, limitTake, searchKeyword);
 	}
 
 }
