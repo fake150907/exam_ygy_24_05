@@ -19,30 +19,20 @@ public class FAQController {
 	@Autowired
 	private FAQService faqService;
 
-	@RequestMapping("/usr/home/main")
-	public String home() {
-
-		return "/usr/home/main";
-	}
-
 	@RequestMapping("/usr/FAQ/search")
-	public String search(Model model, HttpServletRequest req, @RequestParam(defaultValue = "1") int page,
+	public String search(Model model, HttpServletRequest req,
 			@RequestParam(defaultValue = "") String searchKeyword) {
+		
 		int faqCount = faqService.getFAQCount(searchKeyword);
 
-		int itemsInAPage = 10;
-		int pagesCount = (int) Math.ceil(faqCount / (double) itemsInAPage);
 
-		List<FAQ> FAQ = faqService.getForPrintFAQ(itemsInAPage, page, searchKeyword);
+		List<FAQ> FAQ = faqService.getForPrintFAQ(searchKeyword);
 
-		model.addAttribute("page", page);
-		model.addAttribute("pagesCount", pagesCount);
 		model.addAttribute("searchKeyword", searchKeyword);
 		model.addAttribute("faqCount", faqCount);
 		model.addAttribute("FAQ", FAQ);
 
 		return "/usr/FAQ/search";
-		
 	}
 
 }

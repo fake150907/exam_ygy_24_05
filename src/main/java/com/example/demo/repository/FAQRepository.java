@@ -42,11 +42,8 @@ public interface FAQRepository {
 				</choose>
 			</if>
 			ORDER BY F.id DESC
-			<if test="limitFrom >= 0 ">
-				LIMIT #{limitFrom}, #{limitTake}
-			</if>
 			</script>
 			""")
-	List<FAQ> getForPrintFAQ(int limitFrom, int limitTake, String searchKeyword);
+	List<FAQ> getForPrintFAQ(String searchKeyword);
 
 }
