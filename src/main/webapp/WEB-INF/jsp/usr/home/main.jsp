@@ -9,7 +9,7 @@
 <style>
 .big-outer-box {
 	width: auto;
-	height: 1500px;
+	height: auto;
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -42,12 +42,13 @@
 	padding: 10px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
+	width: 300px;
 }
 
 .search-btn {
 	padding: 10px 20px;
-	background-color: #4CAF50;
-	color: white;
+	background-color: #F2FBF6;
+	color: black;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
@@ -58,6 +59,8 @@
 }
 
 .area-outer-box {
+	margin-left: 100px;
+	margin-top: 300px;
 	width: 50%;
 }
 
@@ -69,12 +72,12 @@
 }
 
 .weather-info {
-	width: 300px;
-	height: 300px;
+	width: 250px;
+	height: 200px;
 	border: none;
 	border-radius: 12px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	background: #ffffff;
+	background: #F2FBF6;
 	color: #000000;
 	display: flex;
 	flex-direction: column;
@@ -126,7 +129,7 @@
 
 <div class="big-outer-box">
 	<div class="small-outer-box">
-		<!-- FAQ 검색창 및 버튼 -->
+
 		<div class="search-container">
 			<form action="../FAQ/search" method="POST">
 				<input name="searchKeyword" type="text" id="faq-search" class="search-input" placeholder="FAQ 검색">
@@ -134,7 +137,6 @@
 			</form>
 		</div>
 
-		<!-- 날씨 SELECT -->
 		<div class="content-box">
 			<div class="area-outer-box">
 				<!-- 지역 select 박스 -->
@@ -157,82 +159,39 @@
 				<div class="weather-small-outer-box">
 					<!-- 날씨 정보 표시 요소 -->
 					<div id="weather-info" class="weather-info mt-4 text-center">
-						<p id="city"></p>
-						<p id="temperature"></p>
-						<p id="description"></p>
+						<p style="font-weight: bold;" id="city"></p>
+						<p style="font-weight: bold;" id="temperature"></p>
+						<p style="font-weight: bold;" id="description"></p>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="tour-spot-box" id="tour-spot-box">
 			<div class="tour-spot-small-box">
 				<table class="tour-info-table">
 					<thead>
 						<tr>
-							<th>위치</th>
-							<th>전화번호</th>
-							<th>한줄소개</th>
-							<th>관광시간</th>
-							<th>홈페이지</th>
+							<th style="background-color: #F2FBF6;">구분</th>
+							<th style="background-color: #F2FBF6;">명소 이름</th>
+							<th style="background-color: #F2FBF6;">소재지</th>
+							<th style="background-color: #F2FBF6;">전화번호</th>
+							<th style="background-color: #F2FBF6;">부서 전화번호</th>
 						</tr>
 					</thead>
 					<tbody>
-						<!-- 첫 번째 행 -->
-						<tr>
-							<td>대전 시립미술관</td>
-							<td>042-123-4567</td>
-							<td>현대미술 중심의 전시 공간</td>
-							<td>09:00 - 18:00</td>
-							<td>
-								<a href="http://museum.daejeon.go.kr">방문하기</a>
-							</td>
-						</tr>
-						<!-- 두 번째 행 -->
-						<tr>
-							<td>대전 과학기술 박물관</td>
-							<td>042-860-2200</td>
-							<td>과학의 원리를 체험하고 배울 수 있는 공간</td>
-							<td>09:00 - 17:00</td>
-							<td>
-								<a href="http://science.daejeon.go.kr">방문하기</a>
-							</td>
-						</tr>
-						<!-- 세 번째 행 -->
-						<tr>
-							<td>한밭수목원</td>
-							<td>042-270-8485</td>
-							<td>자연과 함께하는 힐링의 장소</td>
-							<td>08:00 - 19:00</td>
-							<td>
-								<a href="http://hanbat.daejeon.go.kr">방문하기</a>
-							</td>
-						</tr>
-						<!-- 네 번째 행 -->
-						<tr>
-							<td>대전 동물원</td>
-							<td>042-580-4820</td>
-							<td>다양한 동물들을 가까이에서 만나볼 수 있는 동물원</td>
-							<td>09:00 - 17:00</td>
-							<td>
-								<a href="https://zoo.daejeon.go.kr">방문하기</a>
-							</td>
-						</tr>
-						<!-- 다섯 번째 행 -->
-						<tr>
-							<td>엑스포 과학공원</td>
-							<td>042-250-1234</td>
-							<td>과학과 예술이 어우러진 창의적인 놀이 공간</td>
-							<td>10:00 - 18:00</td>
-							<td>
-								<a href="http://expo.daejeon.go.kr">방문하기</a>
-							</td>
-						</tr>
+						<c:forEach var="touristDestination" items="${touristDestination }">
+							<tr>
+								<td>${touristDestination.division }</td>
+								<td>${touristDestination.placename }</td>
+								<td>${touristDestination.location }</td>
+								<td>${touristDestination.phoneNumber }</td>
+								<td>${touristDestination.departmentphoneNumber }</td>
+							</tr>
+						</c:forEach>
 					</tbody>
-
 				</table>
 			</div>
-
 		</div>
 	</div>
 </div>
@@ -243,33 +202,16 @@
 		var selectedRegion = document.getElementById("region-select").value;
 		var tourSpotBox = document.getElementById("tour-spot-box");
 
-		// "대전"이 선택되었을 때만 tour-spot-box를 보여줌
 		if (selectedRegion === "Daejeon") {
-			tourSpotBox.style.display = "flex"; // 관광지 목록 보이기
+			tourSpotBox.style.display = "flex"; 
 		} else {
-			tourSpotBox.style.display = "none"; // 관광지 목록 숨기기
+			tourSpotBox.style.display = "none"; 
 		}
 	}
 
 	// 페이지 로드 시 초기 상태 확인
 	document.addEventListener('DOMContentLoaded', handleRegionChange);
 </script>
-
-
-
-<script>
-	// 검색 함수
-	function searchFAQ() {
-		// 입력된 검색어 가져오기
-		var searchQuery = document.getElementById("faq-search").value;
-
-		// 여기서 검색 로직을 추가하고 검색 결과를 보여줄 수 있도록 구현
-		// 예: AJAX 요청을 사용하여 서버에서 검색 결과를 가져와서 동적으로 화면에 표시
-		// 검색 결과는 ".news" 클래스를 가진 요소 안에 추가되도록 설정
-	}
-</script>
-
-
 
 <script>
     function fetchWeather() {
@@ -283,9 +225,8 @@
                 return response.json();
             })
             .then(function(data) {
-                console.log(data); // 데이터를 콘솔에 출력합니다.
+                console.log(data); 
 
-                // 받아온 데이터를 HTML에 삽입합니다.
                 document.getElementById('city').textContent = data.name;
                 document.getElementById('temperature').textContent = data.main.temp + "°C";
                 document.getElementById('description').textContent = data.weather[0].description;
@@ -295,6 +236,7 @@
             });
     }
 
-    // 페이지 로드 시 날씨 데이터를 가져옵니다.
     window.onload = fetchWeather;
 </script>
+
+<%@ include file="../common/foot.jspf"%>
